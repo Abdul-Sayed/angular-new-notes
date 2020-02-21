@@ -28,14 +28,61 @@ Components - building blocks of UI. Composed of HTML template and TS code that c
 ### Class variables 
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. 
 
-### Psssing data into components 
+### Psssing data into components (parent => child communication)
 Inline way:
 Component selectors can be passed data as attributes
     <app-hello-world name="MyNAme"></app-hello-world>   // When rendering hello-world componentName
   In class HelloWorldComponent,
-    @Input() userName: string;  // username recieves its value from the selector data attribute. The class can then use this.username 
+    @Input('name') userName: string;  // username recieves its value from the selector data attribute. The class can then use this.username 
 
+Create a model class (data transfer object) to serve as the template 
+ in user.model.ts;
+    export class User {
+      name: string;
+      title: string;
+      address: string;
+      phone: string[];
+    }
+in parent.TS
+    import { User } from './hello-world/user.model';
+    ...
+    export class AppComponent {
+      user: User;
 
+      constructor() {
+        this.user = new User();
+
+        this.user.name = 'Goo Fu';
+        this.user.title = 'Software Developer';
+        this.user.address = '1234 Main St, Flushing , NYC, 1010101';
+        this.user.phone = [
+          '123-1234-123',
+          '9513739047'
+        ];
+
+      }
+    }
+in parent.html 
+    <hello-world [user]="user"></hello-world>
+
+in child.TS
+    export class HelloWorldComponent implements OnInit {
+      @Input('user') user: User;
+
+      constructor() { }
+
+      ngOnInit(): void { }
+    }
+in child.html 
+    <div>
+      <h1>{{ user.name }}</h1>
+      <h3>{{ user.title }}</h3>
+      <p>{{ user.address }}</p>
+      <div *ngIf="user.phone.length > 0">
+        <p>Phone:</p>
+        <p *ngFor="let phone of user.phone">{{ phone }}</p>
+      </div>
+    </div>
 
 ## Templates
 
