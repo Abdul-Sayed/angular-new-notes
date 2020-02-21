@@ -1,4 +1,4 @@
-
+ 
 ng new my-app --routing
 
 cd my-app
@@ -29,6 +29,12 @@ Components - building blocks of UI. Composed of HTML template and TS code that c
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. 
 
 ### Psssing data into components 
+Inline way:
+Component selectors can be passed data as attributes
+    <app-hello-world name="MyNAme"></app-hello-world>   // When rendering hello-world componentName
+  In class HelloWorldComponent,
+    @Input() userName: string;  // username recieves its value from the selector data attribute. The class can then use this.username 
+
 
 
 ## Templates
