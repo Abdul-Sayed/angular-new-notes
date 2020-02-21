@@ -2,7 +2,7 @@
 ng new my-app --routing
 
 cd my-app
-ng serve --open  // serve the app
+ng serve --port 3000  // serve the app 
 
 ng build  // creates a build for deployment
 ng lint , ng test  // other tests
@@ -24,4 +24,25 @@ Routes - reload parts of the screen dynamically by controlling url
 
 ## Components
 Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. 
+
+### Class variables 
+Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. 
+
+### Psssing data into components 
+
+
+## Templates
+
+### Template Interpolation 
+Any compoenent variables or methods can be evaluated in the template with {{ ..any nomal JS expression here.. }} 
+Interpolated expressions are re-evaluated anytime the variables inside change - causing a UI update. 
+### ngIf 
+Selectively render/remove DOM elements 
+    <div *ngIf="user.phone.length > 0">
+      <p>Phone:</p>
+      <p *ngFor="let phone of user.phone">{{ phone }}</p>
+    </div>
+### ngFor 
+Loop through an array with ngFor
+     <p *ngFor="let phone of user.phone">{{ phone }} </p>
 
