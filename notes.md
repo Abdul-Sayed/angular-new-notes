@@ -103,3 +103,33 @@ Selectively render/remove DOM elements
 Loop through an array with ngFor
      <p *ngFor="let phone of user.phone">{{ phone }} </p>
 
+### Event Handling 
+(event)="classMethod()"  the () indicates data flowing from view to component
+    <button (click)="toggleCollapse()">Expand/Collapse</button>
+    <div *ngIf="!isCollapsed">
+      ... some content
+    </div>
+In ts file
+    isCollapsed = true;
+
+    constructor() { }
+    ngOnInit(): void { }
+
+    toggleCollapse() {
+      this.isCollapsed = !this.isCollapsed;
+    }
+
+### 2-way data binding (forms)
+ Import forms module into app.module;
+    import { FormsModule } from '@angular/forms';
+    ...
+      imports: [
+        BrowserModule,
+        FormsModule
+      ],
+  In component class:
+    inputText: string = "Initial Value";
+  In template:
+  In ngModel, the () indicates data flow from view to component, the [] indicates flow from component to view
+    <input type="text" [(ngModel)]="inputText" />
+    {{ inputText }}   // ==> shows that view updates the class variable as well
