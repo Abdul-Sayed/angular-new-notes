@@ -86,6 +86,10 @@ in child.html
 
 ## Templates
 
+### Template Styles
+Template styling for a component are specific to that component (style encapsulation). Template elements of a component are given a unique property, and component styles target those elements with those properties (using attribute selectors). 
+
+For global styles accross all components, use the styles.css in the src  root directory
 ### Template Interpolation 
 Any compoenent variables or methods can be evaluated in the template with {{ ..any nomal JS expression here.. }} 
 Interpolated expressions are re-evaluated anytime the variables inside change - causing a UI update. 
