@@ -28,7 +28,7 @@ Components - building blocks of UI. Composed of HTML template and TS code that c
 ### Class variables 
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. 
 
-### Psssing data into components (parent => child communication)
+### Passing data into components (parent => child communication)
 Inline way:
 Component selectors can be passed data as attributes
     <app-hello-world name="MyNAme"></app-hello-world>   // When rendering hello-world componentName
@@ -66,6 +66,7 @@ in parent.html
     <hello-world [user]="user"></hello-world>
 
 in child.TS
+    import {Component, onInit, Input} from '@angular/core';
     export class HelloWorldComponent implements OnInit {
       @Input('user') user: User;
 
@@ -83,6 +84,13 @@ in child.html
         <p *ngFor="let phone of user.phone">{{ phone }}</p>
       </div>
     </div>
+
+### Lifecycle Hooks 
+    constructor() - fires first, before any component inputs initialize
+    ngOnChanges() - fires when component inputs initialize, before ngOnInit()
+    ngOnInit()  - fires when component fully mounts
+
+
 
 ## Templates
 
