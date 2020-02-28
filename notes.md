@@ -26,13 +26,13 @@ Routes - reload parts of the screen dynamically by controlling url
 Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. 
 
 ### Class variables 
-Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. 
+Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. Only class variables can be used in the template. Method variables are too nested for the template to access. 
 
 ### Passing data into components (parent => child communication)
 Inline way:
-Component selectors can be passed data as attributes
+Component selectors can be passed data as attributes. In Parent:
     <app-hello-world name="MyNAme"></app-hello-world>   // When rendering hello-world componentName
-  In class HelloWorldComponent,
+  In class HelloWorldComponent (Child),
     @Input('name') userName: string;  // username recieves its value from the selector data attribute. The class can then use this.username 
 
 Create a model class (data transfer object) to serve as the template 
@@ -43,13 +43,15 @@ Create a model class (data transfer object) to serve as the template
       address: string;
       phone: string[];
     }
-in parent.TS
-    import { User } from './hello-world/user.model';
+...
+
+In Parent.TS
+    import { User } from './user.model';
     ...
     export class AppComponent {
       user: User;
 
-      constructor() {
+      constructor() {     //-> normally this assignment work would be done in an api call
         this.user = new User();
 
         this.user.name = 'Goo Fu';
@@ -62,11 +64,15 @@ in parent.TS
 
       }
     }
-in parent.html 
+In Parent.html - pass in memory variable user and set it to user
     <hello-world [user]="user"></hello-world>
 
-in child.TS
-    import {Component, onInit, Input} from '@angular/core';
+...
+
+In Child.TS
+    import {Component, OnInit, Input} from '@angular/core';
+    import { User } from './user.model';
+
     export class HelloWorldComponent implements OnInit {
       @Input('user') user: User;
 
@@ -74,7 +80,8 @@ in child.TS
 
       ngOnInit(): void { }
     }
-in child.html 
+
+In Child.html 
     <div>
       <h1>{{ user.name }}</h1>
       <h3>{{ user.title }}</h3>
