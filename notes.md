@@ -1,26 +1,14 @@
  
+## Setup
 ng new my-app --routing
 
 cd my-app
 ng serve --port 3000  // serve the app 
 
 ng build  // creates a build for deployment
-ng lint , ng test  // other tests
+ng lint , ng test  // eate a dry run and see what it makes 
 
-ng g c componentName  -- generate a component. Add a -d flag to create a dry run and see what it makes
-
-## Modules
-Modules - organize code. Contains related components and services (groups functionality). A module imports the different decorators used by the module and the class components, the directives, any child modules, and the (exported) components that are grouped into the module. 
-
-The imports array lists all the directives and child modules, the declarations array lists all the components, and the bootstrap array lists the component to be rendered first. Only the app module needs to list the bootstrap. App module must import browser module.
-
-Each component directory can have its own module. Child modules must import CommonModule, and export their components
-
-## Services
-Services - reusable code, and code that connects to server where calculations are done
-
-## Routes
-Routes - reload parts of the screen dynamically by controlling url
+---
 
 ## Components
 Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. 
@@ -98,11 +86,12 @@ In Child.html
     ngOnInit()  - fires when component fully mounts
     ngOnDestroy() - last to fire, used for cleanup work (remove any data feed substriptions)
 
+---
 
 ## Templates
 
 ### Template Styles
-Template styling for a component are specific to that component (style encapsulation). Template elements of a component are given a unique property, and component styles target those elements with those properties (using attribute selectors). 
+Template styling for a component are specific to that component (style encapsulation). Template elements of a component are given a unique property, and component styles target those elements with those properties (using attribute selectors). Its good to insulate a component's styles from affecting other components. This is missing in React. 
 
 For global styles accross all components, use the styles.css in the src  root directory
 ### Template Interpolation 
@@ -119,6 +108,7 @@ Loop through an array with ngFor
      <p *ngFor="let phone of user.phone">{{ phone }} </p>
 
 ### Event Handling 
+Call the event APIs of Angular instead of the DOM. 
 (event)="classMethod()"  the () indicates data flowing from view to component
     <button (click)="toggleCollapse()">Expand/Collapse</button>
     <div *ngIf="!isCollapsed">
@@ -141,10 +131,57 @@ In ts file
       imports: [
         BrowserModule,
         FormsModule
-      ],
+      ]
+
   In component class:
     inputText: string = "Initial Value";
+
   In template:
-  In ngModel, the () indicates data flow from view to component, the [] indicates flow from component to view
+  One-Way data binding (component to view) would be:
+    <input type="text" [value]="inputText" />
+
+  For two-way data-binding, we use ngModel. The () indicates data flow from view to component, the [] indicates flow from component to view
     <input type="text" [(ngModel)]="inputText" />
     {{ inputText }}   // ==> shows that view updates the class variable as well
+
+---
+
+## Modules 
+Modules - organize code. Contains related components and services (groups functionality). A module imports the different decorators used by the module and the class components, the directives, any child modules, and the (exported) components that are grouped into the module. 
+
+The declarations array lists all the components, the imports array lists all the directives and child modules, providers array lists all services, and the bootstrap array lists the component to be rendered first. Only the app module needs to list the bootstrap. App module must import browser module.
+
+Each component directory can have its own module. Child modules must import CommonModule, and export their components
+
+## Services
+Services - reusable code, and code that connects to server where calculations are done
+
+## Routes
+Routes - reload parts of the screen dynamically by controlling url
+
+### Multiple Modules
+Create a module for each feature. Each module can wrap its own components 
+    `ng g module login`
+create a component for that modules
+    `ng g component login/login-page`
+
+In LoginModule;
+    import { NgModule } from '@angular/core';
+    import { CommonModule } from '@angular/common';
+    import { LoginPageComponent } from './login.component';
+
+    @NgModule({
+      declarations: [
+        LoginComponent
+      ],
+      imports: [
+        CommonModule
+      ],
+      providers: [],
+      exports: [
+        LoginComponent
+      ]
+    })
+    export class LoginModule { }
+
+AppModule needs to import LoginModule and include it in the imports[]
