@@ -89,7 +89,7 @@ in child.html
     constructor() - fires first, before any component inputs initialize
     ngOnChanges() - fires when component inputs initialize, before ngOnInit()
     ngOnInit()  - fires when component fully mounts
-
+    ngOnDestroy() - last to fire, used for cleanup work (remove any data feed substriptions)
 
 
 ## Templates
