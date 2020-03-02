@@ -153,32 +153,8 @@ The declarations array lists all the components, the imports array lists all the
 
 Each component directory can have its own module. Child modules must import CommonModule, and export their components
 
-## Services
-Services - For reusable functionality thats used by many components, and code that interfaces with serverside APIs
-    ng generate service serviceName
-  This generates the service at the root level of the app directory
-The @Injectible decorator designates the class as an Angular service
-The module needing the service will have to import it and list it in the providers[]
-
-To use a service, inject it as a dependancy into the component (typecast it to a constructor parameter). Angular will look to see which constructor parameters are injectible - and will treat them as services. 
-
-    export class TestServiceService {
-      constructor() {}
-
-      printToConsole(arg) {
-        console.log(arg);
-      }
-    } 
-
-    export class AppComponent {
-      constructor(public svc: TestServiceService) {
-        // use whatever service class methods
-        this.svc.printToConsole("Got the Service");
-      }
-    }
-
-## Routes
-Routes - reload parts of the screen dynamically by controlling url
+1) Child Module must export its components
+2) Parent Module must import Child Module
 
 ### Multiple Modules
 Create a module for each feature. Each module can wrap its own components 
@@ -206,3 +182,35 @@ In LoginModule;
     export class LoginModule { }
 
 AppModule needs to import LoginModule and include it in the imports[]
+
+## Services
+Services - For reusable functionality thats used by many components, and code that interfaces with serverside APIs
+    ng generate service serviceName
+  This generates the service at the root level of the app directory
+The @Injectible decorator designates the class as an Angular service
+The module needing the service will have to import it and list it in the providers[]
+Once a module uses a service, other modules touching that module automaticaly get that service; Angular creates a shared dependancy injection context. Its best practice to add the service to the module which most uses it. 
+
+To use a service, inject it as a dependancy into the component (typecast it to a constructor parameter). Angular will look to see which constructor parameters are injectible - and will treat them as services. 
+
+    export class TestServiceService {
+      constructor() {}
+
+      printToConsole(arg) {
+        console.log(arg);
+      }
+    } 
+
+    export class AppComponent {
+      constructor(public svc: TestServiceService) {
+        // use whatever service class methods
+        this.svc.printToConsole("Got the Service");
+      }
+    }
+
+## REST calls 
+
+
+## Routes
+Routes - reload parts of the screen dynamically by controlling url
+
