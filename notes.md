@@ -11,7 +11,7 @@ ng lint , ng test  // eate a dry run and see what it makes
 ---
 
 ## Components
-Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. 
+Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. The @Component decorator designates the class as an Angular service
 
 ### Class variables 
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. Only class variables can be used in the template. Method variables are too nested for the template to access. 
@@ -154,7 +154,10 @@ The declarations array lists all the components, the imports array lists all the
 Each component directory can have its own module. Child modules must import CommonModule, and export their components
 
 ## Services
-Services - reusable code, and code that connects to server where calculations are done
+Services - For reusable functionality thats used by many components, and code that interfaces with serverside APIs
+    ng generate service serviceName
+
+The @Injectible decorator designates the class as an Angular service
 
 ## Routes
 Routes - reload parts of the screen dynamically by controlling url
