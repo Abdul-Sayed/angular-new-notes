@@ -206,10 +206,24 @@ To use a service, inject it as a dependancy into the component (typecast it to a
         // use whatever service class methods
         this.svc.printToConsole("Got the Service");
       }
+
+      ngOnInit() {
+        this.svc.printToConsole("We Mounted!!");
+      }
     }
 
 ## REST calls 
+Angular bundles fetch functionality into its HttpClient service. Once imported into a module (such as AppModule), all the other modules can access its functionality. Its best to add core Angular services to AppModule. 
 
+In AppModule,
+    import {HttpClientModule} from '@angular/common/http' and add HttpClientModule to imports[]
+In the component making fetch calls, 
+    import {HttpClient} from '@angular/common/http'
+    constructor(public http: HttpClient) {}
+
+    ngOnInit() {
+      this.http.get('URL')
+    }
 
 ## Routes
 Routes - reload parts of the screen dynamically by controlling url
