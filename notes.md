@@ -156,8 +156,26 @@ Each component directory can have its own module. Child modules must import Comm
 ## Services
 Services - For reusable functionality thats used by many components, and code that interfaces with serverside APIs
     ng generate service serviceName
-
+  This generates the service at the root level of the app directory
 The @Injectible decorator designates the class as an Angular service
+The module needing the service will have to import it and list it in the providers[]
+
+To use a service, inject it as a dependancy into the component (typecast it to a constructor parameter). Angular will look to see which constructor parameters are injectible - and will treat them as services. 
+
+    export class TestServiceService {
+      constructor() {}
+
+      printToConsole(arg) {
+        console.log(arg);
+      }
+    } 
+
+    export class AppComponent {
+      constructor(public svc: TestServiceService) {
+        // use whatever service class methods
+        this.svc.printToConsole("Got the Service");
+      }
+    }
 
 ## Routes
 Routes - reload parts of the screen dynamically by controlling url
