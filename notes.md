@@ -159,7 +159,7 @@ Each component directory can have its own module. Child modules must import Comm
 ### Multiple Modules
 Create a module for each feature. Each module can wrap its own components 
     `ng g module login`
-create a component for that modules
+create a component for that module
     `ng g component login/login-page`
 
 In LoginModule;
@@ -217,12 +217,14 @@ Angular bundles fetch functionality into its HttpClient service. Once imported i
 
 In AppModule,
     import {HttpClientModule} from '@angular/common/http' and add HttpClientModule to imports[]
-In the component making fetch calls, 
+In the component making fetch calls, inject the HttpClient service dependency into the constructor 
     import {HttpClient} from '@angular/common/http'
     constructor(public http: HttpClient) {}
 
+fetches are usually made upon component mounting
     ngOnInit() {
-      this.http.get('URL')
+      const obs = this.http.get("https://jsonplaceholder.typicode.com/todos/1");   //==> setup a subscription to observe for incoming data
+      obs.subscribe(() => console.log("Got the response"));     //==> callback to observer.subscribe() fires when the (async) observer resolves with the data
     }
 
 ## Routes
