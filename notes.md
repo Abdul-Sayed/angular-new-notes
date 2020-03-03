@@ -125,7 +125,7 @@ In ts file
     }
 
 ### 2-way data binding (forms)
- Import forms module into app.module;
+ Import forms module into app.module or the module with the component using 2-way binding;
     import { FormsModule } from '@angular/forms';
     ...
       imports: [
@@ -223,8 +223,10 @@ In the component making fetch calls, inject the HttpClient service dependency in
 
 fetches are usually made upon component mounting
     ngOnInit() {
-      const obs = this.http.get("https://jsonplaceholder.typicode.com/todos/1");   //==> setup a subscription to observe for incoming data
-      obs.subscribe(() => console.log("Got the response"));     //==> callback to observer.subscribe() fires when the (async) observer resolves with the data
+      //==> setup a subscription to observe for incoming data
+      const obs = this.http.get("https://jsonplaceholder.typicode.com/todos/1");   
+      //==> callback to observer.subscribe() fires when the (async) observer resolves with the data
+      obs.subscribe(() => console.log("Got the response"));     
     }
 
 ## Routes
