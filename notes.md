@@ -295,7 +295,7 @@ fetches are usually made upon component mounting
 You should have isolation of responsibilities and each view should have its own root component with its own sub components
 Routes - reload parts of the screen dynamically by controlling url. As the URL is changes, the respoctive component tree is rendered. 
 
-1) Define route URLs in app-routing.module.ts
+Define route URLs in app-routing.module.ts
 First import the components. 
 The routes are specified in the form of:  {path: 'url route', component: HomeComponent}
 Configure Angular to map route URLs to components
@@ -312,7 +312,41 @@ Upon accessing any of these url routes, angular injects the component into <rout
 
 Create Angular components for each view (one view for each route)
 
+To specify child routes (routes appended to parent route in url bar), in app-routing module;
 
+const routes: Routes = [ 
+  ...
+    {
+      path: "settings",
+      component: SettingsComponent,
+      children: [
+        { path: "", redirectTo: "profile", pathMatch: "full" },
+        { path: "profile", component: SettingsProfileComponent },
+        { path: "contact", component: SettingsContactComponent },
+        { path: "**", redirectTo: "profile", pathMatch: "full" }
+      ]
+    },
+  ...
+]
 
+(first import the child routes in app-routing module)
 
+Also, the parent of the child components must have `<router-outlet></router-outlet>` in its template to specify the nested router outlet
 
+### Link to routes in template 
+Use the routerLink directive to avoud page refreshes
+<a routerLink="home">Home</a>
+<a routerLink="settings">Settings</a>
+
+### Display route links dynamically 
+In app.ts; 
+
+    export class AppComponent {
+      routes = [
+        {linkName: 'Home', url: 'home'},
+        {linkName: 'Settings', url: 'settings'}
+      ]
+    }
+
+  In app.html 
+    <a *ngFor="let route of routes" [routerLink]="route.url">{{route.linkName}}</a>
