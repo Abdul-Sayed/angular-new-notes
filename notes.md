@@ -80,6 +80,10 @@ In Child.html
       </div>
     </div>
 
+  Alternate syntax for checking if a value is there before rendering: 
+  Assume we have a class variable response that gets data after an api response returns
+    <p>Login name: {{response?.login}}</p>
+
 ### Lifecycle Hooks 
     constructor() - fires first, before any component inputs initialize
     ngOnChanges() - fires when component inputs initialize, before ngOnInit()
