@@ -3,10 +3,13 @@
 ng new my-app --routing
 
 cd my-app
-ng serve --port 3000  // serve the app 
+ng serve --port 3000  // start a development server 
 
-ng build  // creates a build for deployment
-ng lint , ng test  // eate a dry run and see what it makes 
+ng build --prod // creates a build for deployment (static html, css, js)
+
+In project root directory, run http-server dist/build-proj to serve those static files. Also host that directory on Heroku/AWS
+
+ng lint , ng test 
 
 ---
 
@@ -216,6 +219,59 @@ To use a service, inject it as a dependancy into the component (typecast it to a
       }
     }
 
+
+    ----
+
+  Creating interfaces to match incomming serverside declarations
+  In the components directory, create a ts file for the interface;
+    export interface PostObj {
+      userId: number;
+      id: number;
+      title: string;
+      body: string;
+    }
+
+  In the component's ts file, impor the interface and use it to typecast the class variables recieving serverside data  
+
+    import { Component, OnInit } from "@angular/core";
+    import { HttpClient } from "@angular/common/http";
+    import { PostObj } from "./testPost";
+
+    @Component({
+      selector: "app-test",
+      templateUrl: "./test.component.html",
+      styleUrls: ["./test.component.css"]
+    })
+    export class TestComponent implements OnInit {
+      apiResponse: Array<PostObj>;
+      inputText: string;
+      filteredList: Array<PostObj>;
+
+      constructor(private http: HttpClient) {}
+
+      ngOnInit(): void {
+        this.http
+          .get("https://jsonplaceholder.typicode.com/posts")
+          .subscribe((res: Array<PostObj>) => {
+            console.log("Response from server:", res);
+            this.apiResponse = res;
+          });
+      }
+
+      search() {
+        console.log(this.inputText);
+        console.log("API Response: ", this.apiResponse);
+
+        this.filteredList = this.apiResponse.filter(
+          (post: PostObj) =>
+            post.title.includes(this.inputText) ||
+            post.body.includes(this.inputText)
+        );
+
+        console.log("Filtered List: ", this.filteredList);
+      }
+    }
+
 ## REST calls 
 Angular bundles fetch functionality into its HttpClient service. Once imported into a module (such as AppModule), all the other modules can access its functionality. Its best to add core Angular services to AppModule. 
 
@@ -233,6 +289,30 @@ fetches are usually made upon component mounting
       obs.subscribe(() => console.log("Got the response"));     
     }
 
-## Routes
-Routes - reload parts of the screen dynamically by controlling url
+## Routing
+
+`ng new javabrains --routing`
+You should have isolation of responsibilities and each view should have its own root component with its own sub components
+Routes - reload parts of the screen dynamically by controlling url. As the URL is changes, the respoctive component tree is rendered. 
+
+1) Define route URLs in app-routing.module.ts
+First import the components. 
+The routes are specified in the form of:  {path: 'url route', component: HomeComponent}
+Configure Angular to map route URLs to components
+const routes: Routes = [
+  { path: "", redirectTo: "/home", pathMatch: "full" },
+  { path: "home", component: HomeComponent },
+  { path: "settings", component: SettingsComponent },
+  { path: "**", component: PageNotFoundComponent }
+];
+
+The first is a redirct to come in case no endpoint is entered. The middle two map a user entered url to a component. The last is a wildcard that maps any non-existant route (and sub routes) to the PageNotFoundComponent
+
+Upon accessing any of these url routes, angular injects the component into <router outlet> </router-outlet> which is rendered in app.html - which is the root component that contains all child components
+
+Create Angular components for each view (one view for each route)
+
+
+
+
 
