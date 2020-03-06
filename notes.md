@@ -14,7 +14,7 @@ ng lint , ng test
 ---
 
 ## Components
-Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator and class logic. A component can be rendered using its selector. The @Component decorator designates the class as an Angular service
+Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator (class metadata) and class logic (properties and methods). A component can be rendered using its selector. The @Component decorator designates the class as an Angular service. 
 
 ### Class variables 
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. Only class variables can be used in the template. Method variables are too nested for the template to access. 
