@@ -13,8 +13,14 @@ ng lint , ng test
 
 ---
 
+## Folder Structure 
+
+index.html renders AppComponent via its selector 
+styles.css contains global styles made available to all component css files. Include any minified bootstrap or font-awesome imports here (after npm install)
+AppComponent wraps the entire component heirarchy via rendering component selectors in app.html. AppComponent is part of AppModule which is the root module. 
+
 ## Components
-Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator (class metadata) and class logic (properties and methods). A component can be rendered using its selector. The @Component decorator designates the class as an Angular service. 
+Components - building blocks of UI. Composed of HTML template and TS code that consists of named imports the class needs, a class decorator (class metadata) and class properties (data) and methods (logic)). A component can be rendered using its selector. The @Component decorator designates the class as an Angular service. 
 
 ### Class variables 
 Variables are declared in the root level of the class. They are assigned values inside methods, such as the constructor. Only class variables can be used in the template. Method variables are too nested for the template to access. 
@@ -104,15 +110,19 @@ For global styles accross all components, use the styles.css in the src  root di
 ### Template Interpolation 
 Any compoenent variables or methods can be evaluated in the template with {{ ..any nomal JS expression here.. }} 
 Interpolated expressions are re-evaluated anytime the variables inside change - causing a UI update. 
-### ngIf 
+
+Strucural Directives are exposed through BrowserModule which is imported in AppModule
+
+### ngIf Structural Directive
 Selectively render/remove DOM elements 
     <div *ngIf="user.phone.length > 0">
       <p>Phone:</p>
       <p *ngFor="let phone of user.phone">{{ phone }}</p>
     </div>
-### ngFor 
+
+### ngFor Structural Directive
 Loop through an array with ngFor
-     <p *ngFor="let phone of user.phone">{{ phone }} </p>
+     <p *ngFor="let phone of phoneNumbers">{{ phone }} </p>
 
 ### Event Handling 
 Call the event APIs of Angular instead of the DOM. 
@@ -156,7 +166,7 @@ In ts file
 ## Modules 
 Modules - organize code. Contains related components and services (groups functionality). A module imports the different decorators used by the module and the class components, the directives, any child modules, and the (exported) components that are grouped into the module. 
 
-The declarations array lists all the components, the imports array lists all the directives and child modules, providers array lists all services, and the bootstrap array lists the component to be rendered first. Only the app module needs to list the bootstrap. App module must import browser module.
+The declarations array lists all the components the module uses, the imports array lists all the directives and child modules, providers array lists all services, and the bootstrap array lists the component to be rendered first. Only the app module needs to list the bootstrap. App module must import browser module, as AppComponent is rendered in index.html.
 
 Each component directory can have its own module. Child modules must import CommonModule, and export their components
 
